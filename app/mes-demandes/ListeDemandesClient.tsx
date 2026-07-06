@@ -71,8 +71,14 @@ export default function ListeDemandesClient({ currentUserId }: { currentUserId: 
             <Link
               key={d.id}
               href={`/demande/${d.id}`}
-              className="card p-4 flex items-center justify-between hover:border-primary-300 transition-colors"
+              className="card p-4 flex items-center justify-between hover:border-primary-300 transition-colors relative overflow-hidden"
             >
+              <span
+                className={`absolute top-0 right-0 text-[10px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-bl-lg ${PRIORITE_CONFIG[d.priorite].bg} ${PRIORITE_CONFIG[d.priorite].color}`}
+              >
+                {PRIORITE_CONFIG[d.priorite].label}
+              </span>
+
               <div className="min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xs font-mono text-gray-400">{d.numero}</span>
@@ -92,22 +98,6 @@ export default function ListeDemandesClient({ currentUserId }: { currentUserId: 
                 <p className="text-xs text-gray-400 mt-1">{formatDate(d.created_at)}</p>
               </div>
 
-              <div className="flex flex-col items-end gap-1 flex-shrink-0 ml-4">
+              <div className="flex flex-col items-end gap-1 flex-shrink-0 ml-4 mt-3">
                 <span
                   className={`text-xs font-medium px-2 py-1 rounded-full ${STATUT_CONFIG[d.statut].bg} ${STATUT_CONFIG[d.statut].color}`}
-                >
-                  {STATUT_CONFIG[d.statut].label}
-                </span>
-                <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${PRIORITE_CONFIG[d.priorite].bg} ${PRIORITE_CONFIG[d.priorite].color}`}
-                >
-                  {PRIORITE_CONFIG[d.priorite].label}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}

@@ -21,8 +21,13 @@ export async function POST(request: Request) {
   }
 
   const numero = genererNumero();
+  const admin = createAdminClient();
 
-  const { data: demande, error } = await supabase
+  // On utilise le client admin (service_role) pour l'écriture : l'authentification
+  // a déjà été vérifiée juste au-dessus via la session utilisateur, donc createur_id
+  // est fiable. Ça évite un conflit de timing entre le trigger d'ajout des participants
+  // et la vérification RLS sur la ligne retournée par insert().select().
+  const { data: demande, error } = await admin
     .from('demandes')
     .insert({
       numero,
@@ -42,7 +47,6 @@ export async function POST(request: Request) {
 
   // Envoi de l'email au destinataire (best-effort, ne bloque pas la réponse)
   try {
-    const admin = createAdminClient();
     const { data: destUser } = await admin.auth.admin.getUserById(destinataire_id);
     if (destUser?.user?.email) {
       const nomDest = (destUser.user.user_metadata?.nom_complet as string) || destUser.user.email;

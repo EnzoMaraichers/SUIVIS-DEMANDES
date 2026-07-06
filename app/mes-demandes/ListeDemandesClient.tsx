@@ -101,3 +101,14 @@ export default function ListeDemandesClient({ currentUserId }: { currentUserId: 
               <div className="flex flex-col items-end gap-1 flex-shrink-0 ml-4 mt-3">
                 <span
                   className={`text-xs font-medium px-2 py-1 rounded-full ${STATUT_CONFIG[d.statut].bg} ${STATUT_CONFIG[d.statut].color}`}
+                >
+                  {STATUT_CONFIG[d.statut].label}
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
